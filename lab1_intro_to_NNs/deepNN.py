@@ -36,6 +36,7 @@ class DeepNet(torch.nn.Module):
         self.hidden = torch.nn.ModuleList()
         if n_hidden is not None:
             self.L = len(n_hidden)
+            self.widths = n_hidden
             self.hidden.append(torch.nn.Linear(n_input, n_hidden[0]))
             torch.nn.init.xavier_normal_(self.hidden[0].weight)
             for i in range(1, self.L):
@@ -45,6 +46,7 @@ class DeepNet(torch.nn.Module):
             self.L = 0
 
         if n_output is not None:
+            self.dim_out = n_output
             self.output = torch.nn.Linear(n_hidden[-1], n_output, bias=False)
             torch.nn.init.xavier_normal_(self.output.weight)
         else:
