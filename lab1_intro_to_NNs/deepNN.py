@@ -131,7 +131,7 @@ class DeepNet(torch.nn.Module):
             x = self.activation(x)
             # x = x[:, 0][:, None]
         return x
-
+    
     def gradient(self, x):
         """
         output the gradient of the NN at points x
@@ -141,12 +141,15 @@ class DeepNet(torch.nn.Module):
         if x.dim() == 1:
             x = x.unsqueeze(-1)
         assert x.shape[1] == self.dim
-        xvar = Variable(x, requires_grad=True)
-        y = self.forward(xvar)
+
+        #Variable is deprecated
+        #xvar = Variable(x, requires_grad=True)
+        x.requires_grad_(True)
+        y = self.forward(x)
         y_sum = y.sum(dim=0)
         dy = []
         for yi in y_sum:
-            dyi, = torch.autograd.grad(yi, xvar, retain_graph=True)
+            dyi, = torch.autograd.grad(yi, x, retain_graph=True)
             dy.append(dyi)
 
         # dy = torch.autograd.functional.jacobian(self.forward, x)
@@ -161,17 +164,19 @@ class DeepNet(torch.nn.Module):
         if x.dim() == 1:
             x = x.unsqueeze(-1)
         assert x.shape[1] == self.dim
-        xvar = Variable(x, requires_grad=True)
-        y = self.forward(xvar)
+        #Variable is deprecated
+        #xvar = Variable(x, requires_grad=True)
+        x.requires_grad_(True)
+        y = self.forward(x)
         y_sum = y.sum(dim=0)
         deltay = []
         for yi in y_sum:
-            dyi, = torch.autograd.grad(yi, xvar, retain_graph=True,
+            dyi, = torch.autograd.grad(yi, x, retain_graph=True,
                                        create_graph=True)
             deltayi = torch.zeros(x.shape[0])
             for i in range(self.dim):
                 deltayi -= torch.autograd.grad(dyi[:, i].sum(),
-                                               xvar, create_graph=True)[0][:, i]
+                                               x, create_graph=True)[0][:, i]
             deltay.append(deltayi)
 
         return torch.stack(deltay, dim=1)
