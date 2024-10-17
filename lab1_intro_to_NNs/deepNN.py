@@ -149,7 +149,7 @@ class DeepNet(torch.nn.Module):
         y_sum = y.sum(dim=0)
         dy = []
         for yi in y_sum:
-            dyi, = torch.autograd.grad(yi, x, retain_graph=True)
+            dyi, = torch.autograd.grad(yi, x, create_graph=True)
             dy.append(dyi)
 
         # dy = torch.autograd.functional.jacobian(self.forward, x)
