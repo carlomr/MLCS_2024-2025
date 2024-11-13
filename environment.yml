@@ -5,3 +5,5 @@ dependencies:
   - notebook
   - pytorch
   - matplotlib
+  - ipywidgets 
+
