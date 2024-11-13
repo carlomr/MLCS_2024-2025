@@ -4,54 +4,6 @@ import numpy as np
 import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 
-def grad(x,y,fun):
-    x.requires_grad_(True)
-    y.requires_grad_(True)
-    u_x = torch.autograd.grad(fun(x,y).sum(),x,create_graph=True)[0]
-    u_y = torch.autograd.grad(fun(x,y).sum(),y,create_graph=True)[0]
-    return torch.Tensor([u_x,u_y])
-
-
-# Gradient Descend method 
-def GD(x_0,y_0,eta,num_epoch,fun):
-    X = torch.empty([num_epoch,2])
-    X[0,:] = torch.Tensor([x_0,y_0])
-
-    if np.size(eta) == 1: 
-        for i in range(1,num_epoch):
-            X[i,:] = X[i-1,:] - eta*grad(X[i-1,0],X[i-1,1],fun)
-    else:
-        assert np.size(eta) == num_epoch
-        for i in range(1,num_epoch):
-            X[i,:] = X[i-1,:] - eta[i]*grad(X[i-1,0],X[i-1,1],fun)
-
-    return X
-
-# Momentum method
-def momentum(x_0,y_0,v,beta,eta,num_epochs,fun):
-    X = torch.empty([num_epochs,2])
-    V = torch.empty([2,2]) #devo tenere due valori t-1,t
-    X[0,:] = torch.Tensor([x_0,y_0])
-    V[0,:] = v
-    for i in range(1,num_epochs):
-        V[1,:] = beta*V[0,:] + grad(X[i-1,0],X[i-1,1],fun)
-        V[0,:] = V[1,:] #update
-        X[i,:] = X[i-1,:] - eta*V[1,:]
-    return X
-
-# Nesterov regularizer
-def Nesterov(x_0,y_0,v,beta,eta,num_epochs,fun):
-    X = torch.empty([num_epochs,2])
-    V = torch.empty([2,2]) #devo tenere due valori t-1,t
-    X[0,:] = torch.Tensor([x_0,y_0])
-    V[0,:] = v
-    for i in range(1,num_epochs):
-        X_nest = X[i-1,:] + beta*V[0,:]
-        V[1,:] = beta*V[0,:] - eta*grad(X_nest[0],X_nest[1],fun)
-        V[0,:] = V[1,:] #update
-        X[i,:] = X[i-1,:] + V[1,:]
-    return X
-
 # Define the 3D plotting function
 def plot_3D(x, y, fun):
     with torch.no_grad():
