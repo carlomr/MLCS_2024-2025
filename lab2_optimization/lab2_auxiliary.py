@@ -106,32 +106,7 @@ def default_pars(**kwargs):
     pars['num_epochs'] = 10
     return pars
 
-def plot_2D_GD_interactive(method, x, y, x_min, y_min, fun, x_0, y_0, eta, num_epochs):
-    params = default_pars()
-    params['x_0'] = x_0
-    params['y_0'] = y_0
-    params['learning_rate'] = eta
-    params['num_epochs'] = num_epochs
-    if method == 'gd':
-        update = GD(params['x_0'], params['y_0'], params['learning_rate'], params['num_epochs'], fun)
-    elif method == 'momentum':
-        update = momentum(params['x_0'], params['y_0'], torch.zeros(2), 0.5, params['learning_rate'], params['num_epochs'], fun)
-    elif method == 'nesterov':
-        update = Nesterov(params['x_0'], params['y_0'], torch.zeros(2), 0.5, params['learning_rate'], params['num_epochs'], fun)
 
-    x_mesh, y_mesh = torch.meshgrid(x, y, indexing='ij')
-    with torch.inference_mode():
-        fig, ax = plt.subplots(figsize = (4,4))
-        x_plt, y_plt = x_mesh.detach().numpy(), y_mesh.detach().numpy()
-        contour = ax.contourf(x_plt, y_plt, fun(x_mesh, y_mesh).detach().numpy())
-
-        ax.plot(update[:, 0], update[:, 1], marker = 'o', c = 'red', linewidth = 0.7, markersize = 3)
-        ax.scatter(x_min, y_min, marker = 'X', label = 'global minumum')
-        ax.set_xlabel('x')
-        ax.set_ylabel('y')
-        ax.legend()
-        ax.set_aspect('equal', adjustable='box')
-        fig.colorbar(contour, ax=ax, orientation='vertical', label='Function Value') 
 
 def err(app_min,global_min,fun):
     L = len(app_min)
