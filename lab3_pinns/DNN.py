@@ -4,7 +4,6 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 torch.set_default_device(device) # default tensor device
 print("I'm using: ", device)
 
-
 class DeepNet(torch.nn.Module):
     def __init__(self, activation, n_input, n_hidden=None, n_output=None):
         """
