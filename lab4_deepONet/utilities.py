@@ -121,26 +121,23 @@ class LprelLoss():
 #########################################
 # Functions for visualization
 #########################################
-def plot_data(x, rhs, solutions, num_samples_to_plot=5):
-    assert(num_samples_to_plot <= rhs.shape[0])
+def plot_data(x, funcs, num_samples_to_plot=5):
 
-    fig, axs = plt.subplots(1, 2, figsize=(10, 5))
 
-    for i in random.sample(range(rhs.shape[0]), num_samples_to_plot):
+    idx = 0
+    fig, axs = plt.subplots(1, len(funcs.items()), figsize=(10, 5))
+    for k, v in funcs.items():
 
-        axs[0].plot(x.cpu().numpy(), rhs[i].cpu().numpy(), label=f'RHS {i+1}')
-        axs[0].set_xlabel('x')
-        axs[0].set_ylabel('rhs(x)')
-        axs[0].set_title(f'Right-Hand Side Function')
-        axs[0].legend()
-        axs[0].grid()
+        for i in random.sample(range(v.shape[0]), num_samples_to_plot):
 
-        axs[1].plot(x.cpu().numpy(), solutions[i].cpu().numpy(), label=f'Solution  {i+1}')
-        axs[1].set_xlabel('x')
-        axs[1].set_ylabel('u(x)')
-        axs[1].set_title(f'Solution')
-        axs[1].legend()
-        axs[1].grid()
+            axs[idx].plot(x.cpu().numpy(), v[i].cpu().numpy(), label=f'{k} {i+1}')
+            axs[idx].set_xlabel('x')
+            # axs[idx].set_ylabel(k)
+            axs[idx].set_title(k)
+            axs[idx].legend()
+            axs[idx].grid()
+
+        idx += 1
 
     plt.tight_layout()
     plt.show()
@@ -156,13 +153,13 @@ def plot_results(x, true_solutions, predicted_solutions, num_samples_to_plot=3):
 
     fig, axs = plt.subplots(1, num_samples_to_plot, figsize=(12, 5))
     for (idplot, i) in enumerate(random.sample(range(true_solutions.shape[0]), num_samples_to_plot)):
-        axs[idplot].plot(x, true_solutions[i, :], label='True Solution', linestyle='--')
-        axs[idplot].plot(x, predicted_solutions[i, :], label='Predicted Solution', marker='.')
+        axs[idplot].plot(x, true_solutions[i, :], label='Exact', linestyle='--')
+        axs[idplot].plot(x, predicted_solutions[i, :], label='Computed', marker='.')
         axs[idplot].set_xlabel('x')
         axs[idplot].legend()
         axs[idplot].grid()
     
 
-    axs[0].set_ylabel('u(x)')
+    # axs[0].set_ylabel('u(x)')
     fig.tight_layout()
     plt.show()
