@@ -5,6 +5,7 @@ import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 
 # Define the 3D plotting function
+
 def plot_3D(x, y, fun):
     with torch.no_grad():
         x_mesh, y_mesh = torch.meshgrid(x, y, indexing='ij')
