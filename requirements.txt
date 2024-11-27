@@ -1,7 +1,0 @@
-notebook
-torch
-matplotlib
-ipywidgets 
-plotly
-scipy
-numpy
