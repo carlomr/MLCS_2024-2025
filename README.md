@@ -10,5 +10,5 @@ The notebooks show
 - how to approximate solution operators of PDEs with deep operator networks (lab4)
 
 
-Main contributors: Massimiliano Ghiotto ([@MaxGhi8](github.com/MaxGhi8)), Luca Pellegrini ([@lucapell](github.com/lucapell))
+Main contributors: Massimiliano Ghiotto ([@MaxGhi8](https://github.com/MaxGhi8)), Luca Pellegrini ([@lucapell](https://github.com/lucapell))
 
