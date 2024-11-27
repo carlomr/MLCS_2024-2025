@@ -1,4 +1,0 @@
-#!/bin/bash
-jupyter serverextension enable --py nbgitpuller --sys-prefix
-rm -rf .git
-git init
