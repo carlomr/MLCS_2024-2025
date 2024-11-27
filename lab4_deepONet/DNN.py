@@ -1,6 +1,7 @@
 import torch
 torch.set_default_dtype(torch.float64)
 
+
 class DeepNet(torch.nn.Module):
     def __init__(self, activation, n_input, n_hidden=None, n_output=None):
         """

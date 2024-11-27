@@ -13,7 +13,6 @@ import torch
 torch.set_default_dtype(torch.float64)
 
 
-
 def generate_data(nsamples, nx):
 
     uh = torch.zeros((nsamples, nx))

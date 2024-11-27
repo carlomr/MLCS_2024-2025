@@ -5,6 +5,7 @@ import random
 # from scipy.sparse import diags
 # from scipy.sparse.linalg import spsolve
 
+
 device = torch.device('cpu')
 torch.set_default_device(device)
 np.random.seed(0)
