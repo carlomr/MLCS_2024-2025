@@ -1,0 +1,8 @@
+notebook
+torch
+matplotlib
+nbgitpuller
+ipywidgets 
+plotly
+scipy
+numpy
