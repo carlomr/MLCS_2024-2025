@@ -1,5 +1,5 @@
 notebook
-pytorch
+torch
 matplotlib
 ipywidgets 
 plotly
