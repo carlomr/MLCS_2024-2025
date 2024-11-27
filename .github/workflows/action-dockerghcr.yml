@@ -1,6 +1,5 @@
 name: Build container image
 
-
 on: [push]
 
 jobs:
