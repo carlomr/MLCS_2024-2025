@@ -1,2 +1,2 @@
-rm -rf .git
+#!/bin/bash
 jupyter serverextension enable --py nbgitpuller --sys-prefix
