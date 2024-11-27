@@ -1,4 +1,4 @@
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/carlomr/MLCS_2024-2025/HEAD)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/carlomr/MLCS_2024-2025/binder_environment?urlpath=git-pull?repo=https://github.com/carlomr/MLCS_2024-2025/tree/main)
 
 
 Jupyter notebooks for the course Machine Learning per il Calcolo Scientifico, Università di Pavia, corso di Laurea Magistrale in Matematica, anno accademico 2024-2025.
