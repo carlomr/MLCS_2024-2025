@@ -1,9 +1,0 @@
-name: MLCS-2024
-channels:
-  - defaults
-dependencies:
-  - notebook
-  - pytorch
-  - matplotlib
-  - ipywidgets 
-  - plotly
