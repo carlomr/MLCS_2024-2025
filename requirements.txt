@@ -1,0 +1,8 @@
+notebook
+pytorch
+matplotlib
+ipywidgets 
+plotly
+scipy
+random
+numpy
