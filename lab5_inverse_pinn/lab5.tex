@@ -1,0 +1,115 @@
+\documentclass{article}
+\usepackage[left = 20mm, right = 20mm]{geometry}
+\linespread{1.2}
+\usepackage{xcolor,eso-pic,soul}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{pifont}
+\usepackage{hyperref}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\graphicspath{{./figures}}
+\definecolor{bluunipv}{HTML}{1E489F}
+\newcommand{\step}[1]{\underline{\textbf{\large{#1}}} }  
+\setulcolor{bluunipv}
+\setul{0.5ex}{0.3ex}
+\title{\textcolor{white}{\textbf{Machine Learning per il Calcolo Scientifico}\\ \small\textbf{Fifth laboratory exercises }}}
+
+\date{}
+
+% \AddToShipoutPictureBG{\color{bluunipv}%
+% \AtPageUpperLeft{\rule[-20mm]{\paperwidth}{30cm}}%
+% }
+
+\begin{document}
+\definecolor{rossounipv}{HTML}{B2264A}
+\definecolor{bluunipv}{HTML}{1E489F}
+%\pagecolor{bluunipv}
+\AddToShipoutPicture*
+{%
+  \AtPageUpperLeft
+  {%
+    \color{bluunipv}%
+    \raisebox{-.1\paperheight}{\rule{\paperwidth}{.5\paperheight}}%
+
+  }%
+  %\color{white}%
+  % \rule{\paperwidth}{.5\paperheight}%
+}
+\newgeometry{left = 20mm, right = 20mm, top = -6mm}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}\step{General guide} \end{center}
+\noindent
+For each laboratory, an incomplete Python notebook will be provided with exercises (steps) that must be completed in the given order (some of the exercises will be needed in future laboratories). In step zero, all the Python packages that are needed in order to complete the notebook are listed. This PDF includes the text for the exercises and the expected outcomes for each step. While following the notebook is recommended, you are also welcome to attempt the exercises without using it.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}\step{Step Zero} \end{center}
+\noindent
+Here are the required Python (\url{https://www.python.org/}) packages for this laboratory: PyTorch (\url{https://pytorch.org/}), Numpy (\url{https://numpy.org/}), Matplotlib (\url{https://matplotlib.org/}).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}\step{Step one: inverse problem with poisson equation}\end{center}
+We consider the following second-order partial differential equation (PDE):
+\[
+  \begin{cases}
+    -\alpha \frac{d^2u}{dx^2} = f(x), \quad x \in \Omega = (0,1), \\
+    u(0) = u(1) =  0.
+  \end{cases}
+\]
+\noindent
+The target function $\tilde{u}$ is given by:
+$$\tilde{u} = \sin(\pi x)$$
+\noindent
+The function $f(x)$, derived from the assumed true solution, is specified as:
+$$f = 2 \pi^2 \sin(\pi x).$$
+\noindent
+Our goal is to compute the value of $\alpha$ that best aligns the solution $u(x)$ of the PDE with the given $\tilde{u}(x)$.
+To achieve this, we can utilize a Physics-Informed Neural Network (PINN) that integrates the differential equation as a part of its loss function.
+This approach ensures that the learned solution not fits the data while respecting the underlying "physics" described by the PDE.
+\begin{itemize}
+  \item[a.] Define the PINN model with 1 neuron in input, 1 neuron in output and 4 hidden layers with 50 neurons each. Use the tanh activation function. Then define a parameter $\alpha$ as a tensor with requires\_grad=True that will be trained in order to approximate the true value of $\alpha$.
+  \item[b.] Define the boundary conditions take 150 random points for the train of the PINN, 60 equispaced points for the data interpolation and 100 points for the test.
+  \item[c.] Define the exact solution, the right-hand side of the PDE and the loss function for the PINN and the exact value of $\alpha$.
+  \item[d.] Define the derivative of the Neural Network using torch.autograd. Then try to train the network and plot the results obtained.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\restoregeometry
+\begin{center}\step{Step two: Inverse problem with heat equation}\end{center}
+\noindent
+Consider the one-dimensional heat equation:
+$$
+  u_t(t, x) = k(t,x)u_{xx}(t, x) + s(t, x), \quad t\in[0,T], ~x\in [-1,0]
+$$
+\noindent
+with zero Dirichlet boundary conditions
+$$
+  u_b(t, -1)=u_b(t,0)=0,
+$$
+\noindent
+and initial condition
+$$
+  u(0, x) = u_0(x) = - \sin(\pi x)
+$$
+\noindent
+The equation parameter $k:[0,T]\times[-1,0]\mapsto \mathbb{R} $ denotes the medium conductivity and $s:[0,T]\times[-1,0]\mapsto \mathbb{R}$ is a source term. Suppose that $s(t,x)$ is given and we want to estimate $k(t,x)$ and approximate $u(t,x)$ with two different neural networks.
+
+We will use a physics-informed neural network (PINN) to solve this inverse problem with tunable parameters $\theta$ and $\phi$:
+$$
+  u_\theta(t,x) \approx u(t,x), \quad k_\phi(t, x) \approx k(t, x).
+$$
+\noindent
+
+
+\begin{itemize}
+  \item[a.] Initialize $u_{\theta}$ as a neural network with $2$ input, $1$ output and $5$ hidden layers with $40$ neurons each. Initialize $k_{\phi}(t,x) = k_{\phi}(x)$ as a neural network with $1$ input, $1$ output and $5$ hidden layers with $40$ neurons each, both the networks use the hyperbolic tangent as activation function.
+  \item[b.] Define the initial conditions, exact solution, the exact conductivity term, the right-hand side (source term) of the PDE and the loss function for the PINN and the exact value of $\alpha$.
+  \item[c.] Define the derivative of the Neural Network using torch.autograd. Then try to train the network and plot the results obtained.
+\end{itemize}
+
+
+\end{document}
