@@ -1,0 +1,93 @@
+\documentclass{article}
+\usepackage[left = 20mm, right = 20mm]{geometry}
+\linespread{1.2}
+\usepackage{xcolor,eso-pic,soul}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{pifont}
+\usepackage{hyperref}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\graphicspath{{./figures}}
+\definecolor{bluunipv}{HTML}{1E489F}
+\newcommand{\step}[1]{\underline{\textbf{\large{#1}}} }  
+\setulcolor{bluunipv}
+\setul{0.5ex}{0.3ex}
+\title{\textcolor{white}{\textbf{Machine Learning per il Calcolo Scientifico}\\ \small\textbf{Fifth laboratory exercises }}}
+
+\date{}
+
+% \AddToShipoutPictureBG{\color{bluunipv}%
+% \AtPageUpperLeft{\rule[-20mm]{\paperwidth}{30cm}}%
+% }
+
+\begin{document}
+\definecolor{rossounipv}{HTML}{B2264A}
+\definecolor{bluunipv}{HTML}{1E489F}
+%\pagecolor{bluunipv}
+\AddToShipoutPicture*
+{%
+  \AtPageUpperLeft
+  {%
+    \color{bluunipv}%
+    \raisebox{-.1\paperheight}{\rule{\paperwidth}{.5\paperheight}}%
+
+  }%
+  %\color{white}%
+  % \rule{\paperwidth}{.5\paperheight}%
+}
+\newgeometry{left = 20mm, right = 20mm, top = -6mm}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}\step{General guide} \end{center}
+\noindent
+For each laboratory, an incomplete Python notebook will be provided with exercises (steps) that must be completed in the given order (some of the exercises will be needed in future laboratories). In step zero, all the Python packages that are needed in order to complete the notebook are listed. This PDF includes the text for the exercises and the expected outcomes for each step. While following the notebook is recommended, you are also welcome to attempt the exercises without using it.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}\step{Step Zero} \end{center}
+
+Here are the required Python (\url{https://www.python.org/}) packages for this laboratory:
+\begin{itemize}
+  \item PyTorch (\url{https://pytorch.org/})
+  \item Numpy (\url{https://numpy.org/})
+  \item Matplotlib (\url{https://matplotlib.org/})
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}\step{Step one: Load the dataset}\end{center}
+
+In this laboratory we consider the Allen-Cahn equation:
+$$u_t = \Delta u - \varepsilon^2 u (u^2 - 1),\quad u\in\mathbb{R} \times\mathbb{R}_{>0}.$$
+\noindent
+The operator that we wish to learn is
+$$\mathcal{G}: u(\cdot, t = 0) \mapsto  u(\cdot, t = 1).$$
+\begin{itemize}
+  \item[a.] Download the data (see the files AC\_data\_input.npy and AC\_data\_output.npy) and load it in the notebook.
+  \item[b.] Plot the dimensions of each tensor to ensure that the dataset has been created correctly and take a look plotting one input-output pair plotting it.
+  \item[c.] Create a DataLoader, dividing the dataset in batches of 10 elements.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{center}\step{Step two: Define the FNO model}\end{center}
+\begin{itemize}
+  \item[a.] Define the spectral convolution block, this correspond to do the Fourier transform of the input, multiply with a coefficients tensor and then do the inverse Fourier transform of the result. For the Fourier transform and inverse Fourier transform you can use the functions 'torch.fft.rfft' and 'torch.fft.irfft' respectively.
+
+  \item[b.] Define the Fourier Neural Operator, this correspond to apply the spectral convolution block multiple times with the lifitng operator at the beginning and the projection operator at the end.
+
+  \item[c.] Introduce a FNO with 3 layers, tanh activation function, hidden dimension (width) equal to 64 and 16 Fourier modes.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\restoregeometry
+\begin{center}\step{Step three: Train the FNO}\end{center}
+\begin{itemize}
+  \item[a.] Define a function to train the FNO using the Adam optimizer with a learning rate of $0.001$ for 50 epochs and halving the learning rate every 50 epochs and use the relative $L^2$ norm as loss function (for the loss use the function LprelLoss provided in the utilities.py file). During the training process save the value of the loss function.
+  \item[b.] Make a figure of the loss function and check that it decreases.
+  \item[c.] Plot an example of the approximation with the corresponding true solution and check the results obtained.
+  \item[d.] You can run the training process multiple times (without restarting the notebook) to augment the number of epochs of training and check both about the convergence of the loss function and the resulting approximation plots.
+\end{itemize}
+
+\end{document}
