@@ -7,7 +7,8 @@ The notebooks show
 - how to construct a Neural Network and verify a classic result in approximation theory (lab1)
 - the behaviour of optimization schemes on some test two-dimensional loss functions (lab2)
 - how to solve simple ODEs/PDEs with PINNs (lab3)
-- how to approximate solution operators of PDEs with deep operator networks (lab4)
+- how to approximate the solution operators of PDEs with deep operator networks (lab4) and Fourier Neural Operators (lab6)
+- how to apply PINNs to inverse problems (lab5)
 
 
 Main contributors: Massimiliano Ghiotto ([@MaxGhi8](https://github.com/MaxGhi8)), Luca Pellegrini ([@lucapell](https://github.com/lucapell))
